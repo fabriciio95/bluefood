@@ -1,0 +1,76 @@
+<! DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>BlueFood</title>
+		<link rel="stylesheet" type="text/css" href="css/bf_estiloSistema.css">
+	</head>
+	<body>
+		<header>
+			<div id="divLogotipoSistema">
+				<span id="spanAuxiliarDeAlinhamentoVertical"></span>
+				<a href="">
+					<img src="Images/bf_logotipoSistema.png"  id="imgLogotipoSistema">
+				</a>
+			</div>
+			<div id="divUsuarioLogado">
+				Olá Nome do usuário!
+			</div>
+		</header>
+		<br><br>
+		<!-- Cabeçalho - Fim -->
+
+
+		<div>
+			<h1>Comidas</h1>
+		</div>
+
+		<div>
+			<span>Pizza de Calabresa</span><br/>
+			<span>Pizzas</span><br/>
+			<span>Massa fina, queijo, calabresa e pimenta.</span><br/>
+			<span>R$ 45,00</span><br/>
+			<input type="button" value="Remover"><br/><br/>
+			
+			<span>Hamburguer</span><br/>
+			<span>Hamburguer</span><br/>
+			<span>Pão, carne 200gr, queijo, tomate e alface.</span><br/>
+			<span>R$ 30,00</span><br/>
+			<input type="button" value="Remover"><br/><br/>
+			
+			<div>
+				Eventual mensagem de erro
+			</div><br/>
+			
+			<!--  <span>Nova comida: </span><br/> -->
+			<form method="post" action="">
+				<fieldset>
+					<legend>Nova comida</legend><br/>
+					<label for="item">Item: </label><br/>
+					<input type="text" name="item" id="item"><br/>
+					
+					<label for="descricao">Descrição: </label><br/>
+					<input type="text" name="descricao" id="descricao"><br/>
+				
+					<label for="preco">Preço: </label><br/>
+					<input type="text" name="preco" id="preco"><br/>
+					
+					<label for="categoria">Categoria de comida: </label><br/>
+					<input type="text" name="categoria" id="categoria"><br/>
+					
+					<label for="destaque">Destaque: </label>
+					<input type="checkbox" id="destaque" name="destaque"><br/><br/>
+					
+					<input type="button" value="Adicionar"><br/><br/>
+				</fieldset>
+			</form>
+		</div>
+
+
+		<input type="button" value="Voltar" onclick="location.href = 'restauranteHome.html'" />
+
+
+	<!-- Rodapé - Início -->
+		<br/><br/>
+	</body>
+</html>

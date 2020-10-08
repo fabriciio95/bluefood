@@ -1,0 +1,141 @@
+<! DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>BlueFood</title>
+		<link rel="stylesheet" type="text/css" href="css/bf_estiloSistema.css">
+	</head>
+	<body>
+		<header>
+			<div id="divLogotipoSistema">
+				<span id="spanAuxiliarDeAlinhamentoVertical"></span>
+				<a href="">
+					<img src="Images/bf_logotipoSistema.png"  id="imgLogotipoSistema">
+				</a>
+			</div>
+			<div id="divUsuarioLogado">
+				Olá Nome do usuário!
+				<br/>
+				<img src="Images/bf_iconeCarrinho.png" id="imgIconeCarrinho" onclick="location.href = 'clienteCarrinho.html'">
+			</div>
+		</header>
+		<br><br>
+		<!-- Cabeçalho - Fim -->
+		
+		<div>
+			<h1>É hora de rangar!</h1>
+			<form method="post" action="">
+				<fieldset>
+					<input type="text" name="busca" placeholder="Buscar por..."/>
+					<input type="button" value="Procurar" onclick="location.href = 'clienteBusca.html'" />
+				</fieldset>	
+			</form>
+		</div>
+		
+		<div id="divCategoriasComidaGeral">
+				<div id="divCategoriasComidaOpcao">
+					<a href="#">
+						<img src="Images/sys_categoriaChurrasco.png" id="imgCategoriaComida" /><br/>
+						<span>Churrasco</span>
+					</a>
+				</div>
+				
+				<div id="divCategoriasComidaOpcao">
+					<a href="#">
+						<img src="Images/sys_categoriaHamburguer.png" id="imgCategoriaComida"><br/>
+						<span>Hamburguer</span>
+					</a>
+				</div>
+				
+				<div id="divCategoriasComidaOpcao">
+					<a href="#">
+						<img src="Images/sys_categoriaPizza.png" id="imgCategoriaComida"><br/>
+						<span>Pizza</span>
+					</a>
+				</div>
+				
+				
+				<div id="divCategoriasComidaOpcao">
+					<a href="#">
+						<img src="Images/sys_categoriaSalada.png" id="imgCategoriaComida"><br/>
+						<span>Salada</span>
+					</a>
+				</div>
+				
+				<div id="divCategoriasComidaOpcao">
+					<a href="#">
+						<img src="Images/sys_categoriaSobremesa.png" id="imgCategoriaComida"><br/>
+						<span>Sobremesa</span>
+					</a>
+				</div>
+			</div>
+
+		<div>
+			<h1>Resultados</h1>
+			<fieldset>
+				<legend>Filtros</legend>
+				<input type="button" value="Entrega grátis"/><br/>
+				<input type="button" value="Maior preço" /> <input type="button" value="Menor preço"/><br/>
+				<input type="button" value="Maior taxa" /> <input type="button" value="Menor taxa"/><br/>
+				<input type="button" value="Maior tempo" /> <input type="button" value="Menor tempo" id="inputSelecionado" /><br/>
+			</fieldset>
+		</div>
+		
+		<div>
+			
+			<div id="divRestauranteOpcao">
+				<a href="#">
+					<img src="Images/sys_restauranteBubgerKirg.png" id="imgRestauranteOpcao" onclick="location.href = 'clienteRestaurante.html'" />
+					<br/>
+					<span id="restauranteOpcaoTitulo">Nome do Restaurante</span>
+					<br/>
+					<span>Categoria de Comida</span>
+					<br/>
+					<span>Tempo médio de entrega: 40m</span>
+					<br/>
+					<span>Taxa de entrega: R$ 15,00</span>
+					<br/>
+				</a>
+			</div>
+			<br/><br/>
+			
+			
+			<div id="divRestauranteOpcao">
+				<a href="#">
+					<img src="Images/sys_restauranteMcNaldos.png" id="imgRestauranteOpcao" onclick="location.href = 'clienteRestaurante.html'" />
+					<br/>
+					<span id="restauranteOpcaoTitulo">Nome do Restaurante</span>
+					<br/>
+					<span>Categoria de Comida</span>
+					<br/>
+					<span>Tempo médio de entrega: 40m</span>
+					<br/>
+					<span>Taxa de entrega: R$ 15,00</span>
+					<br/>
+				</a>
+			</div>
+			<br/><br/>
+		
+		
+			<div id="divRestauranteOpcao">
+				<a href="#">
+					<img src="Images/sys_restauranteSbubby.png" id="imgRestauranteOpcao" onclick="location.href = 'clienteRestaurante.html'" />
+					<br/>
+					<span id="restauranteOpcaoTitulo">Nome do Restaurante</span>
+					<br/>
+					<span>Categoria de Comida</span>
+					<br/>
+					<span>Tempo médio de entrega: 40m</span>
+					<br/>
+					<span>Taxa de entrega: R$ 15,00</span>
+					<br/>
+				</a>
+			</div>
+			<br/><br/>
+		</div>
+		
+		<input type="button" value="Voltar" onclick="location.href = 'clienteHome.html'" />
+		
+		<!-- Rodapé - Início -->
+	</body>
+</html>
