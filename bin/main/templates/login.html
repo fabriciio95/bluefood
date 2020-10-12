@@ -14,15 +14,20 @@
 						<input type="button" value="Entrar" onclick="location.href = 'clienteHome.html'" />
 					</fieldset>
 				</form>
-				<br>
+				<br/>
 				<div id="mensagemDeErro">
 					Aqui vai um exemplo de mensagem de erro
 				</div>
-				<br>
+				<br/>
 				
-				<input type="button" value="Gostaria de criar a minha conta de usuário" onclick="location.href = 'clienteCadastro.html'" />
-				<br>
-				<input type="button" value="Gostaria de criar a minha conta de restaurante" onclick="location.href = 'restauranteCadastro.html' "/>
+				
+				<form method="get" th:action="@{/public/cliente/new}">
+					<input type="submit" value="Gostaria de criar a minha conta de cliente"/>
+				</form>
+				<br/>
+				<form method="get" action="">
+					<input type="button" value="Gostaria de criar a minha conta de restaurante" onclick="location.href = 'restauranteCadastro.html' "/>
+				</form>
 			</div>
 		</div>
 	</body>
