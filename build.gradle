@@ -24,6 +24,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	//runtimeOnly 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	//runtimeOnly 'org.thymeleaf.extras:thymeleaf-extras-java8time'
+	// https://mvnrepository.com/artifact/javax.validation/validation-api
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
 	runtimeOnly 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
