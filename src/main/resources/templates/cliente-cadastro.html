@@ -9,8 +9,10 @@
 					Aqui vai um exemplo de mensagem de sucessos
 				</div>
 				<br/>
-				<form method="post" th:object="${cliente}" th:action="@{/public/cliente/save}">
+				<form method="post" th:object="${cliente}" th:action="${editMode} ? @{/cliente/save} : @{/public/cliente/save}">
 					<fieldset>
+						<input type="hidden" th:field="*{id}">
+						
 						<label for="nome">Nome: </label><br/>
 						<input type="text" id="nome" name="nome" placeholder="Nome..." th:field="*{nome}" /><br/><br/>
 						<div id="mensagemDeErro">
@@ -32,7 +34,7 @@
 						<label for="senha">Senha: </label><br/>
 						<input type="password" id="senha" name="senha" placeholder="Senha..." th:field="*{senha}"/><br/><br/>
 						
-						<input type="submit" value="Cadastrar" />
+						<input type="submit" th:value="${!editMode} ? 'Cadastrar' : 'Alterar'" />
 						
 					</fieldset>
 				</form>
