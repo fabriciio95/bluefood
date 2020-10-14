@@ -33,8 +33,8 @@ public class PublicController {
 	public String saveCliente(@ModelAttribute("cliente") @Valid Cliente cliente, Errors errors, Model model) {
 		if(!errors.hasErrors()) {
 			try {
-			clienteService.saveCliente(cliente);
-			model.addAttribute("msg", "Cliente cadastrado com sucesso!");
+				clienteService.saveCliente(cliente);
+				model.addAttribute("msg", "Cliente cadastrado com sucesso!");
 			} catch(ValidationException e) {
 				errors.rejectValue("email", null, e.getMessage());
 			}
