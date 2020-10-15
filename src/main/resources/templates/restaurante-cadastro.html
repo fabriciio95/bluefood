@@ -61,7 +61,7 @@
 						</div><br />
 						
 						<label for="logotipo">Logotipo: </label><br/>
-						<input type="file" id="logotipo" name="logotipo" placeholder="Selecionar..."/><br/><br/>
+						<input type="file" id="logotipo" name="logotipo" placeholder="Selecionar..." th:field="*{logotipoFile}" /><br/><br/>
 						
 						<label for="categoria">Categoria de comida: </label><br/>
 						<select name="categoria" id="categoria" multiple="multiple" th:field="*{categorias}" style="height: 90px;"
@@ -74,7 +74,7 @@
 						</div><br/>
 						
 						
-						<div th:if="${!editMode}">
+						<div th:if="${editMode != null && !editMode}">
 							<label for="senha">Senha: </label><br/>
 							<input type="password" id="senha" name="senha" placeholder="Senha..." th:field="*{senha}"
 								   th:classappend="${#fields.hasErrors('senha')} ? 'inputError' : '' " /><br/><br/>

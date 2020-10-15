@@ -18,8 +18,18 @@ public class RestauranteService {
 		if(!validateEmail(restaurante.getEmail(), restaurante.getId())) {
 			throw new ValidationException("O e-mail está duplicado");
 		}
+		
+		if(restaurante.getId() != null) {
+			Restaurante restauranteDB = restauranteRepository.findById(restaurante.getId()).orElseThrow();
+			restaurante.setSenha(restauranteDB.getSenha());
+		} else {
+			restaurante.encryptPassword();
+			restaurante = restauranteRepository.save(restaurante);
+			restaurante.setLogotipoFileName();
+			//TODO upload!
+		}
 	
-		restauranteRepository.save(restaurante);
+		
 	}
 	
 	private boolean validateEmail(String email, Integer id) {
