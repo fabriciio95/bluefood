@@ -32,6 +32,7 @@ public class InsertDataForTesting {
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		clientes();
+		@SuppressWarnings("unused")
 		Restaurante[] restaurantes = restaurantes();
 	}
 	
