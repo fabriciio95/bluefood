@@ -2,7 +2,10 @@ package br.com.bluefood.domain.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import br.com.bluefood.domain.cliente.Cliente;
+import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
 
@@ -15,7 +18,10 @@ public class RestauranteService {
 	@Autowired
 	private ImageService imageService;
 	
+	@Autowired
+	private ClienteRepository clienteRepository;
 	
+	@Transactional
 	public void saveRestaurante(Restaurante restaurante) throws ValidationException {
 		
 		if(!validateEmail(restaurante.getEmail(), restaurante.getId())) {
@@ -36,6 +42,12 @@ public class RestauranteService {
 	}
 	
 	private boolean validateEmail(String email, Integer id) {
+		Cliente cliente = clienteRepository.findByEmail(email);
+		
+		if(cliente != null) {
+			return false;
+		}
+		
 		Restaurante restaurante = restauranteRepository.findByEmail(email);
 		
 		if(restaurante != null) {
