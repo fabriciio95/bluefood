@@ -25,15 +25,14 @@ public class RestauranteService {
 		if(restaurante.getId() != null) {
 			Restaurante restauranteDB = restauranteRepository.findById(restaurante.getId()).orElseThrow();
 			restaurante.setSenha(restauranteDB.getSenha());
+			restauranteRepository.save(restaurante);
 		} else {
 			restaurante.encryptPassword();
 			restaurante = restauranteRepository.save(restaurante);
 			restaurante.setLogotipoFileName();
 			restauranteRepository.save(restaurante);
 			imageService.uploadLogotipo(restaurante.getLogotipoFile(), restaurante.getLogotipo());
-		}
-	
-		
+		}		
 	}
 	
 	private boolean validateEmail(String email, Integer id) {
