@@ -1,4 +1,4 @@
-package br.com.bluefood.domain.application;
+package br.com.bluefood.domain.application.service;
 
 import java.io.IOException;
 
