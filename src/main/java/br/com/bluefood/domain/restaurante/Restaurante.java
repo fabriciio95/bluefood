@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -44,7 +45,7 @@ public class Restaurante extends Usuario {
 	@Column(nullable = true)
 	private String logotipo;
 	
-	@UploadConstraint(acceptedTypes = { FileType.PNG }, message = "O arquivo não é um arquivo de imagem válido")
+	@UploadConstraint(acceptedTypes = { FileType.PNG, FileType.JPG }, message = "O arquivo não é um arquivo de imagem válido")
 	private transient MultipartFile logotipoFile;
 	
 	@NotNull(message = "A taxa de entrega não pode ser vazia")
@@ -68,6 +69,9 @@ public class Restaurante extends Usuario {
 	@Size(min = 1, message = "O restaurante precisa ter pelo menos uma categoria")
 	@ToString.Exclude
 	private Set<CategoriaRestaurante> categorias = new HashSet<>(0);
+	
+	@OneToMany(mappedBy = "restaurante")
+	private Set<ItemCardapio> itensCardapio = new HashSet<ItemCardapio>(0);
 	
 	public void setLogotipoFileName() {
 		
