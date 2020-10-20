@@ -1,11 +1,8 @@
 package br.com.bluefood.infrastructure.web.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -19,7 +16,6 @@ import br.com.bluefood.domain.application.service.RestauranteService;
 import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
-import br.com.bluefood.domain.restaurante.CategoriaRestaurante;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
 import br.com.bluefood.util.SecurityUtils;
@@ -71,8 +67,10 @@ public class ClienteController {
 	
 	@GetMapping(path = "/search")
 	public String search(@ModelAttribute("searchFilter") SearchFilter searchFilter, Model model) {
+		searchFilter.processFilter();
 		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
 		model.addAttribute("restaurantes", restauranteService.search(searchFilter));
+		model.addAttribute("searchFilter", searchFilter);
 		return "cliente-busca";
 	}
 

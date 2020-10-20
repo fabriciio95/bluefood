@@ -1,5 +1,6 @@
 package br.com.bluefood.domain.application.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
+import br.com.bluefood.domain.restaurante.SearchFilter.SearchType;
+import br.com.bluefood.util.FileType;
 
 @Service
 public class RestauranteService {
@@ -70,6 +73,15 @@ public class RestauranteService {
 	}
 	
 	public List<Restaurante> search(SearchFilter searchFilter){
-		return restauranteRepository.findAll(Sort.by("nome"));
+		List<Restaurante> restaurantes = new ArrayList<>();
+		if(searchFilter.getSearchType().equals(SearchType.Texto)) {
+			restaurantes.addAll(restauranteRepository.findByNomeIgnoreCaseContaining(searchFilter.getTexto()));
+		} else if(searchFilter.getSearchType().equals(SearchType.Categoria)){
+			restaurantes.addAll(restauranteRepository.findByCategorias_Id(searchFilter.getCategoriaId()));
+		} else {
+			throw new IllegalStateException("O tipo de busca "  + searchFilter.getSearchType() + " não é suportado!");
+		}
+		
+		return restaurantes;
 	}
 }
