@@ -1,6 +1,9 @@
 package br.com.bluefood.domain.application.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +11,7 @@ import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
+import br.com.bluefood.domain.restaurante.SearchFilter;
 
 @Service
 public class RestauranteService {
@@ -63,5 +67,9 @@ public class RestauranteService {
 		
 		
 		return true;
+	}
+	
+	public List<Restaurante> search(SearchFilter searchFilter){
+		return restauranteRepository.findAll(Sort.by("nome"));
 	}
 }

@@ -6,16 +6,16 @@
 			<div id="divUsuarioLogado">
 				Olá Nome do usuário!
 				<br/>
-				<img th:src="@{Images/bf_iconeCarrinho.png}" id="imgIconeCarrinho" :onclick="location.href = 'clienteCarrinho.html'">
+				<img th:src="@{Images/bf_iconeCarrinho.png}" id="imgIconeCarrinho" onclick="location.href = 'clienteCarrinho.html'">
 			</div>
 		
 			<div layout:fragment="content">
 				<div>
 					<h1>É hora de rangar!</h1>
-					<form method="post" action="">
-						<fieldset>
-							<input type="text" name="busca" placeholder="Buscar por..."/>
-							<input type="button" value="Procurar" onclick="location.href = 'clienteBusca.html'" />
+					<form method="get" th:object="${searchFilter}" th:action="@{/cliente/search}">
+						<fieldset >
+							<input type="text" name="busca" th:field="*{texto}" placeholder="Buscar por..."/>
+							<input type="submit" value="Procurar"/>
 						</fieldset>	
 						<br/>
 					</form>
