@@ -17,43 +17,15 @@
 							<input type="text" name="busca" placeholder="Buscar por..."/>
 							<input type="button" value="Procurar" onclick="location.href = 'clienteBusca.html'" />
 						</fieldset>	
+						<br/>
 					</form>
 				</div>
 				
 				<div id="divCategoriasComidaGeral">
-					<div id="divCategoriasComidaOpcao">
+					<div id="divCategoriasComidaOpcao" th:each="categoria : ${categorias}">
 						<a href="#">
-							<img src="Images/sys_categoriaChurrasco.png" id="imgCategoriaComida"><br/>
-							<span>Churrasco</span>
-						</a>
-					</div>
-					
-					<div id="divCategoriasComidaOpcao">
-						<a href="#">
-							<img src="Images/sys_categoriaHamburguer.png" id="imgCategoriaComida"><br/>
-							<span>Hamburguer</span>
-						</a>
-					</div>
-					
-					<div id="divCategoriasComidaOpcao">
-						<a href="#">
-							<img src="Images/sys_categoriaPizza.png" id="imgCategoriaComida"><br/>
-							<span>Pizza</span>
-						</a>
-					</div>
-					
-					
-					<div id="divCategoriasComidaOpcao">
-						<a href="#">
-							<img src="Images/sys_categoriaSalada.png" id="imgCategoriaComida"><br/>
-							<span>Salada</span>
-						</a>
-					</div>
-					
-					<div id="divCategoriasComidaOpcao">
-						<a href="#">
-							<img src="Images/sys_categoriaSobremesa.png" id="imgCategoriaComida"><br/>
-							<span>Sobremesa</span>
+							<img th:src="@{/images/categoria/} + ${categoria.image}" id="imgCategoriaComida"><br/>
+							<span th:text="${categoria.nome}"></span>
 						</a>
 					</div>
 				</div>
