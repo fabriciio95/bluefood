@@ -43,11 +43,11 @@
 						<br/>
 						<span id="restauranteOpcaoTitulo" th:text="${restaurante.nome}"></span>
 						<br/>
-						<span>Categoria de Comida</span>
+						<span th:text="${restaurante.categoriasAsText}"></span>
 						<br/>
 						<span th:text="'Tempo média de entrega: ' + ${restaurante.tempoEntregaBase} + 'm'"></span>
 						<br/>
-						<span th:text="'Taxa de entrega: R$ ' + ${restaurante.taxaEntrega}"></span>
+						<span th:text="'Taxa de entrega: ' + ${#numbers.formatCurrency(restaurante.taxaEntrega)}"></span>
 						<br/>
 					</a>
 				<br/><br/>
