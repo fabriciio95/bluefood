@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.bluefood.domain.application.service.ClienteService;
 import br.com.bluefood.domain.application.service.RestauranteService;
@@ -66,8 +67,8 @@ public class ClienteController {
 	}
 	
 	@GetMapping(path = "/search")
-	public String search(@ModelAttribute("searchFilter") SearchFilter searchFilter, Model model) {
-		searchFilter.processFilter();
+	public String search(@ModelAttribute("searchFilter") SearchFilter searchFilter, Model model, @RequestParam(value = "cmd", required = false) String cmd) {
+		searchFilter.processFilter(cmd);
 		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
 		model.addAttribute("restaurantes", restauranteService.search(searchFilter));
 		model.addAttribute("searchFilter", searchFilter);
