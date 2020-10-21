@@ -95,4 +95,18 @@ public class Restaurante extends Usuario {
 		return StringUtils.concatenate(strings);
 	}
 	
+	public Integer calcularTempoEntrega(String cep) {
+		int soma = 0;
+		
+		for(char c : cep.toCharArray()) {
+			int v = Character.getNumericValue(c);
+			if(v > 0) {
+				soma += v;
+			}
+		}
+		
+		soma /= 2;
+		return tempoEntregaBase + soma;
+	}
+	
 }

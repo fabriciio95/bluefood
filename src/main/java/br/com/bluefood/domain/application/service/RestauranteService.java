@@ -1,6 +1,7 @@
 package br.com.bluefood.domain.application.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
+import br.com.bluefood.domain.restaurante.SearchFilter.Order;
 import br.com.bluefood.domain.restaurante.SearchFilter.SearchType;
 import br.com.bluefood.util.FileType;
+import br.com.bluefood.util.SecurityUtils;
 
 @Service
 public class RestauranteService {
@@ -82,6 +85,38 @@ public class RestauranteService {
 			throw new IllegalStateException("O tipo de busca "  + searchFilter.getSearchType() + " não é suportado!");
 		}
 		
+		applyFilters(searchFilter, restaurantes);
+		
 		return restaurantes;
+	}
+	
+	private void applyFilters(SearchFilter searchFilter, List<Restaurante> restaurantes) {
+		Iterator<Restaurante> it = restaurantes.iterator();
+		
+		while(it.hasNext()) {
+			Restaurante restaurante = it.next();
+			double taxaEntrega = restaurante.getTaxaEntrega().doubleValue();
+			
+			if(searchFilter.isEntregaGratis() && taxaEntrega > 0 || !searchFilter.isEntregaGratis() && taxaEntrega == 0) {
+				it.remove();
+			}
+		}
+		
+		orderFilters(searchFilter, restaurantes, SecurityUtils.getLoggedCliente().getCep());
+	}
+
+	private void orderFilters(SearchFilter searchFilter, List<Restaurante> restaurantes, String cep) {
+		restaurantes.sort((r1, r2) -> {
+			int result;
+			if(searchFilter.getOrder() == Order.Taxa) {
+				result = r1.getTaxaEntrega().compareTo(r2.getTaxaEntrega());
+			} else if(searchFilter.getOrder() == Order.Tempo) {
+				result = r1.calcularTempoEntrega(cep).compareTo(r2.calcularTempoEntrega(cep));
+			} else {
+				throw new IllegalStateException("O valor de ordenação " + searchFilter.getOrder() + " não é válido");
+			}
+			
+			return searchFilter.isAsc() ? result : -result;
+		});		
 	}
 }
