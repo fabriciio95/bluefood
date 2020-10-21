@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,6 @@ import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
 import br.com.bluefood.domain.restaurante.SearchFilter.Order;
 import br.com.bluefood.domain.restaurante.SearchFilter.SearchType;
-import br.com.bluefood.util.FileType;
 import br.com.bluefood.util.SecurityUtils;
 
 @Service

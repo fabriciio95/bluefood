@@ -49,14 +49,14 @@
 			<div>
 				
 				<div id="divRestauranteOpcao" th:each="restaurante : ${restaurantes}">
-					<a href="#">
+					<a th:href="@{/cliente/restaurante} + '?restauranteId=' + ${restaurante.id}">
 						<img th:src="@{/images/logotipo/} + ${restaurante.logotipo}" id="imgRestauranteOpcao" onclick="location.href = 'clienteRestaurante.html'" />
 						<br/>
 						<span id="restauranteOpcaoTitulo" th:text="${restaurante.nome}"></span>
 						<br/>
 						<span th:text="${restaurante.categoriasAsText}"></span>
 						<br/>
-						<span th:text="'Tempo média de entrega: ' + ${restaurante.tempoEntregaBase} + 'm'"></span>
+						<span th:text="'Tempo média de entrega: ' + ${restaurante.calcularTempoEntrega(#authentication.principal.usuario.cep)} + 'm'"></span>
 						<br/>
 						<span th:text="'Taxa de entrega: ' + ${#numbers.formatCurrency(restaurante.taxaEntrega)}"></span>
 						<br/>

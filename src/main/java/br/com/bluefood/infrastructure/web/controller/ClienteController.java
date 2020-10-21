@@ -18,6 +18,7 @@ import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
+import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
 import br.com.bluefood.util.SecurityUtils;
 
@@ -36,6 +37,9 @@ public class ClienteController {
 	
 	@Autowired
 	private RestauranteService restauranteService;
+	
+	@Autowired
+	private RestauranteRepository restauranteRepository;
 	
 	@GetMapping(path = "/home")
 	public String home(Model model) {
@@ -74,5 +78,12 @@ public class ClienteController {
 		model.addAttribute("searchFilter", searchFilter);
 		return "cliente-busca";
 	}
+	
+	@GetMapping("/restaurante")
+	public String viewRestaurante(@RequestParam(name = "restauranteId") Integer restauranteId, Model model) {
+		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
+		return "cliente-restaurante";
+	}
+	
 
 }
