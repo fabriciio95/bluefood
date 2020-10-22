@@ -20,12 +20,22 @@
 			
 			<div>
 				<h1>Opções</h1>
-				<fieldset>
-					<legend>Filtros</legend>
-					<div th:each="categoria : ${categorias}" style="display: inline;">
-						<input type="button" th:value="${categoria}" />
-					</div>
-				</fieldset>
+				<form id="filterForm" th:action="@{/cliente/restaurante}">
+					<input type="hidden" id="categoria" name="categoria" />
+					<input type="hidden" th:value="${restaurante.id}" name="restauranteId" />
+					<fieldset>
+						<legend>Filtros</legend>
+						<div th:each="categoria : ${categorias}" style="display: inline;">
+							<input
+								th:id="${categoriaSelecionada == categoria} ? 'inputSelecionado' : ''"
+							 	type="button"
+							  	th:value="${categoria}"
+							  	th:data-categoria="${categoria}"
+							  	th:onclick="filterCardapio(this.getAttribute('data-categoria'));" 
+							/>
+						</div>
+					</fieldset>
+				</form>
 				<br/>
 			</div>
 			
@@ -58,6 +68,9 @@
 				</form>
 			</div>
 		</div>
+			
+		<span th:if="${itensCardapioDestaque.size()} == 0">Não existem itens de destaque</span>
+		
 		<br><br>
 
 		<div>

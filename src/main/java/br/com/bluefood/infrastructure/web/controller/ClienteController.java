@@ -87,18 +87,24 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/restaurante")
-	public String viewRestaurante(@RequestParam(name = "restauranteId") Integer restauranteId, Model model) {
+	public String viewRestaurante(@RequestParam(name = "restauranteId") Integer restauranteId,
+			@RequestParam(name = "categoria", required = false) String categoria, Model model) {
 		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
 		model.addAttribute("categorias", itemCardapioRepository.findCategorias(restauranteId));
 		List<ItemCardapio> itensCardapioDestaque;
 		List<ItemCardapio> itensCardapioNaoDestaque;
 		
-		itensCardapioDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueOrderByNome(restauranteId, true);
+		if(categoria == null) {
+			itensCardapioDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueOrderByNome(restauranteId, true);
+			itensCardapioNaoDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueOrderByNome(restauranteId, false);
+		} else {
+			itensCardapioDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueAndCategoriaOrderByNome(restauranteId, true, categoria);			
+			itensCardapioNaoDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueAndCategoriaOrderByNome(restauranteId, false, categoria);
+		}
+
 		model.addAttribute("itensCardapioDestaque", itensCardapioDestaque);
-		
-		itensCardapioNaoDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueOrderByNome(restauranteId, false);
 		model.addAttribute("itensCardapioNaoDestaque", itensCardapioNaoDestaque);
-		
+		model.addAttribute("categoriaSelecionada", categoria);
 		return "cliente-restaurante";
 	}
 	
