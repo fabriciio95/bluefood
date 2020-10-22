@@ -1,5 +1,7 @@
 package br.com.bluefood.infrastructure.web.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
+import br.com.bluefood.domain.restaurante.ItemCardapio;
+import br.com.bluefood.domain.restaurante.ItemCardapioRepository;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
 import br.com.bluefood.util.SecurityUtils;
@@ -40,6 +44,9 @@ public class ClienteController {
 	
 	@Autowired
 	private RestauranteRepository restauranteRepository;
+	
+	@Autowired
+	private ItemCardapioRepository itemCardapioRepository;
 	
 	@GetMapping(path = "/home")
 	public String home(Model model) {
@@ -82,6 +89,16 @@ public class ClienteController {
 	@GetMapping("/restaurante")
 	public String viewRestaurante(@RequestParam(name = "restauranteId") Integer restauranteId, Model model) {
 		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
+		model.addAttribute("categorias", itemCardapioRepository.findCategorias(restauranteId));
+		List<ItemCardapio> itensCardapioDestaque;
+		List<ItemCardapio> itensCardapioNaoDestaque;
+		
+		itensCardapioDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueOrderByNome(restauranteId, true);
+		model.addAttribute("itensCardapioDestaque", itensCardapioDestaque);
+		
+		itensCardapioNaoDestaque = itemCardapioRepository.findByRestaurante_idAndDestaqueOrderByNome(restauranteId, false);
+		model.addAttribute("itensCardapioNaoDestaque", itensCardapioNaoDestaque);
+		
 		return "cliente-restaurante";
 	}
 	
