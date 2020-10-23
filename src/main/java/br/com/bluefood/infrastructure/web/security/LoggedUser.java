@@ -73,4 +73,10 @@ public class LoggedUser implements UserDetails {
 	public Usuario getUsuario() {
 		return usuario;
 	}
+	
+	public void atualizarLoggedUser(Usuario usuario) {
+		this.usuario.setNome(usuario.getNome());
+		this.usuario.setEmail(usuario.getEmail());
+		this.usuario.setTelefone(usuario.getTelefone());
+	}
 }

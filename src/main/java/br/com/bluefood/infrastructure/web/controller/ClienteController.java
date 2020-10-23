@@ -74,6 +74,7 @@ public class ClienteController {
 			}
 		}
 		ControllerHelper.setEditeMode(model, true);
+		SecurityUtils.getLoggedUser().atualizarLoggedUser(cliente);
 		return "cliente-cadastro";
 	}
 	
