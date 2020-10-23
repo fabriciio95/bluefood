@@ -2,10 +2,7 @@ package br.com.bluefood.domain.pedido;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-
 import br.com.bluefood.domain.restaurante.ItemCardapio;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +23,8 @@ public class ItemPedido {
 	private String observacoes;
 	
 	private BigDecimal preco;
+	
+	public BigDecimal getPrecoCalculado() {
+		return preco.multiply(BigDecimal.valueOf(quantidade));
+	}
 }

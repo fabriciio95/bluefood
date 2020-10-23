@@ -1,13 +1,20 @@
 package br.com.bluefood.domain.pedido;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import br.com.bluefood.domain.restaurante.ItemCardapio;
 import br.com.bluefood.domain.restaurante.Restaurante;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Carrinho {
+@Getter
+@Setter
+@SuppressWarnings("serial")
+public class Carrinho implements Serializable {
 
 	private List<ItemPedido> itens = new ArrayList<>();
 	private Restaurante restaurante;
@@ -57,5 +64,17 @@ public class Carrinho {
 		}
 		
 		return false;
+	}
+	
+	public BigDecimal getPrecoTotal(boolean adicionarTaxaEntrega) {
+		BigDecimal soma = BigDecimal.ZERO;
+		
+		for (ItemPedido itemPedido : itens) {
+			soma = soma.add(itemPedido.getPrecoCalculado());
+		}
+		if(adicionarTaxaEntrega) {
+			soma = soma.add(restaurante.getTaxaEntrega());
+		}
+		return soma;
 	}
 }
