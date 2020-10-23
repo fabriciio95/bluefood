@@ -3,8 +3,10 @@ package br.com.bluefood.domain.pedido;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -66,8 +68,12 @@ public class Pedido implements Serializable{
 	private BigDecimal subtotal;
 	
 	@NotNull
+	@Column(name = "taxa_entrega")
+	private BigDecimal taxaEntrega;
+	
+	@NotNull
 	private BigDecimal total;
 	
 	@OneToMany(mappedBy = "id.pedido")
-	private Set<ItemPedido> itens;
+	private Set<ItemPedido> itens = new HashSet<ItemPedido>();
 }

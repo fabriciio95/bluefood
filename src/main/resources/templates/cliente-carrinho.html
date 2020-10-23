@@ -48,11 +48,12 @@
 					<span id="opcaoComida">Cartão de Crédito</span><br/>
 					<input type="text" name="cartao" onkeypress="return isNumberKey(event)"/>
 				</div>
-				
-				<div>
-					<input type="button" value="Enviar pedido" onclick="location.href = 'clientePedido.html'">
-					<br/>
-				</div>
+				<form method="post" th:action="@{/cliente/pagamento/pagar}">
+					<div>
+						<input name="numCartao" type="submit" value="Enviar pedido">
+						<br/>
+					</div>
+				</form>
 		  </div>
 		  <input type="button" value="Voltar" th:onclick="'location.href=\'' + @{/cliente/home} + '\';'" />
 		</div>

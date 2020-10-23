@@ -3,7 +3,6 @@ package br.com.bluefood.domain.pedido;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
