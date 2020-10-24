@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Table(name = "pedido")
 public class Pedido implements Serializable{
 	
+	@Getter
 	public enum Status {
 		Producao(1, "Em produção", false),
 		Entrega(2, "Saiu para entrega", false),
@@ -41,6 +43,7 @@ public class Pedido implements Serializable{
 			this.ultimo = ultimo;
 		}
 		
+	
 		int ordem;
 		String descricao;
 		boolean ultimo;
@@ -74,6 +77,6 @@ public class Pedido implements Serializable{
 	@NotNull
 	private BigDecimal total;
 	
-	@OneToMany(mappedBy = "id.pedido")
+	@OneToMany(mappedBy = "id.pedido", fetch = FetchType.EAGER)
 	private Set<ItemPedido> itens = new HashSet<ItemPedido>();
 }
