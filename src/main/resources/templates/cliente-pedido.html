@@ -5,7 +5,7 @@
 		<div layout:fragment="content">		
 			<div>
 				<h1>SEU PEDIDO</h1>
-				<input type="button" value="Refazer pedido" onclick="location.href = 'clientePedido.html'">
+				<input type="button" value="Refazer pedido" th:onclick="'location.href=\''  + @{/cliente/carrinho/refazerCarrinho} + '?pedidoId=' + ${pedido.id} + '\';'">
 			</div>
 			<br/><br/>
 			
@@ -15,6 +15,7 @@
 			<br/><br/>
 			
 			<img th:src="@{/images/logotipo/} + ${pedido.restaurante.logotipo}" id="imgPrincipalRestaurante"/>
+			<br/> <br/>
 			
 			<div th:each="item : ${pedido.itens}">
 				<span id="opcaoComida" th:text="${item.itemCardapio.nome}"></span><br/>
