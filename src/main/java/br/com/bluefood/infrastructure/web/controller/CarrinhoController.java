@@ -63,7 +63,6 @@ public class CarrinhoController {
 		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
 		carrinho.limpar();
 		pedido.getItens().forEach((item) -> carrinho.addItem(item));
-		carrinho.setRestaurante(pedido.getRestaurante());
 		return "cliente-carrinho";
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -19,6 +20,8 @@ import br.com.bluefood.domain.application.service.RestauranteService;
 import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
+import br.com.bluefood.domain.pedido.Pedido;
+import br.com.bluefood.domain.pedido.PedidoRepository;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.ItemCardapio;
 import br.com.bluefood.domain.restaurante.ItemCardapioRepository;
@@ -48,9 +51,15 @@ public class ClienteController {
 	@Autowired
 	private ItemCardapioRepository itemCardapioRepository;
 	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
 	@GetMapping(path = "/home")
 	public String home(Model model) {
 		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);		
+		Cliente cliente = SecurityUtils.getLoggedCliente();
+		List<Pedido> pedidos = pedidoRepository.getPedidosPorCliente(cliente.getId());
+		model.addAttribute("pedidos", pedidos);
 		model.addAttribute("searchFilter", new SearchFilter());
 		return "cliente-home";
 	}
