@@ -13,6 +13,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.bluefood.domain.pagamento.Cartao;
+import br.com.bluefood.domain.pagamento.Pagamento;
+import br.com.bluefood.domain.pagamento.PagamentoRepository;
 import br.com.bluefood.domain.pagamento.StatusPagamento;
 import br.com.bluefood.domain.pedido.Carrinho;
 import br.com.bluefood.domain.pedido.ItemPedido;
@@ -37,6 +39,9 @@ public class PedidoService {
 
 	@Value("${bluefood.bfpay.token}")
 	private String bfPayToken;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	@SuppressWarnings("unchecked")
 	@Transactional(rollbackFor = PagamentoException.class)
@@ -76,10 +81,15 @@ public class PedidoService {
 			throw new PagamentoException("Erro no servidor de pagamento");
 		}
 		StatusPagamento statusPagamento = StatusPagamento.valueOf(response.get("status"));
-		System.out.println(statusPagamento.name());
 		if (statusPagamento != StatusPagamento.Autorizado) {
 			throw new PagamentoException(statusPagamento.getDescricao());
 		}
+		
+		Pagamento pagamento = new Pagamento();
+		pagamento.setData(LocalDateTime.now());
+		pagamento.setPedido(pedido);
+		pagamento.definirNumeroEBandeira(numCartao);
+		pagamentoRepository.save(pagamento);
 
 		return pedido;
 

@@ -8,16 +8,20 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.com.bluefood.domain.cliente.Cliente;
+import br.com.bluefood.domain.pagamento.Pagamento;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -57,6 +61,7 @@ public class Pedido implements Serializable{
 	private LocalDateTime data;
 	
 	@NotNull
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@NotNull
@@ -76,6 +81,9 @@ public class Pedido implements Serializable{
 	
 	@NotNull
 	private BigDecimal total;
+	
+	@OneToOne(mappedBy = "pedido")
+	private Pagamento pagamento;
 	
 	@OneToMany(mappedBy = "id.pedido", fetch = FetchType.EAGER)
 	private Set<ItemPedido> itens = new HashSet<ItemPedido>();
