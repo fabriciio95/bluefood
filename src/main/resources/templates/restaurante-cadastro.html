@@ -60,12 +60,14 @@
 							<span th:errors="*{tempoEntregaBase}"></span>
 						</div><br />
 						
-						<label for="logotipo">Logotipo: </label><br/>
-						<input type="file" id="logotipo" name="logotipo" placeholder="Selecionar..." th:field="*{logotipoFile}" 
-							   th:classappend="${#fields.hasErrors('logotipoFile')} ? 'inputError' : ''" /><br/><br/>
-						<div id="mensagemDeErro" th:if="${#fields.hasErrors('logotipoFile')}">
-							<span th:errors="*{logotipoFile}"></span>
-						</div><br />
+						<div th:if="${editMode != null && !editMode}">
+							<label for="logotipo">Logotipo: </label><br/>
+							<input type="file" id="logotipo" name="logotipo" placeholder="Selecionar..." th:field="*{logotipoFile}" 
+								   th:classappend="${#fields.hasErrors('logotipoFile')} ? 'inputError' : ''" /><br/><br/>
+							<div id="mensagemDeErro" th:if="${#fields.hasErrors('logotipoFile')}">
+								<span th:errors="*{logotipoFile}"></span>
+							</div><br />
+						</div>
 						
 						<label for="categoria">Categoria de comida: </label><br/>
 						<select name="categoria" id="categoria" multiple="multiple" th:field="*{categorias}" style="height: 90px;"
@@ -90,7 +92,7 @@
 						
 						<input type="hidden" name="senha" value="*" th:if="${editMode}">
 						
-						<input type="submit" value="Cadastrar" />
+						<input type="submit" th:value="${editMode} ? 'Alterar' : 'Cadastrar'" />
 						
 					</fieldset>
 				</form>
