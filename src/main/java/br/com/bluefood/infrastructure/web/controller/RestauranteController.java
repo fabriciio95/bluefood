@@ -1,5 +1,7 @@
 package br.com.bluefood.infrastructure.web.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.bluefood.domain.application.service.RestauranteService;
 import br.com.bluefood.domain.application.service.ValidationException;
+import br.com.bluefood.domain.pedido.Pedido;
+import br.com.bluefood.domain.pedido.PedidoRepository;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.ItemCardapio;
 import br.com.bluefood.domain.restaurante.ItemCardapioRepository;
@@ -36,9 +40,16 @@ public class RestauranteController {
 	
 	@Autowired
 	private ItemCardapioRepository itemCardapioRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	@GetMapping(path = "/home")
-	public String home() {
+	public String home(Model model) {
+		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
+		Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow();
+		List<Pedido> pedidos = pedidoRepository.findByRestaurante_idOrderByDataDesc(restaurante.getId());
+		model.addAttribute("pedidos", pedidos);
 		return "restaurante-home";
 	}
 	

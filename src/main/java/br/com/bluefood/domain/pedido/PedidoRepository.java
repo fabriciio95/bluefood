@@ -13,4 +13,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 	
 	@Query("SELECT p FROM Pedido p WHERE p.cliente.id = ?1 ORDER BY p.data DESC")
 	List<Pedido> getPedidosPorCliente(Integer idCliente);
+	
+	List<Pedido> findByRestaurante_idOrderByDataDesc(Integer restauranteId);
 }

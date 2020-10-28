@@ -12,12 +12,11 @@
 				<input type="button" value="Sair" th:onclick="'location.href=\'' + @{/logout} + '\';'"><br/>
 			</div>
 			
-			<div>
-				<h1>Pedidos em andamento</h1>
-				<input type="button" value="#35334" onclick="location.href = 'restaurantePedido.html'"><br/>
-				<input type="button" value="#8956" onclick="location.href = 'restaurantePedido.html'"><br/>
-				<input type="button" value="#14214" onclick="location.href = 'restaurantePedido.html'"><br/>
+			<h1>Pedidos em andamento</h1>
+			<div th:each="pedido : ${pedidos}">
+				<input type="button" th:value="${pedido.formattedId}" th:onclick="'location.href=\'' + @{/restaurante/pedido} + '?pedidoId=' + ${pedido.id} + '\';'"><br/>
 			</div>
+			<span th:if="${pedidos.size() == 0}">Não existem pedidos em andamento</span>
 		</div>
 	</body>
 </html>

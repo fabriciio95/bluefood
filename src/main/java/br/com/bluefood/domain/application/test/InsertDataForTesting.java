@@ -1,6 +1,7 @@
 package br.com.bluefood.domain.application.test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
+import br.com.bluefood.domain.pedido.Pedido;
+import br.com.bluefood.domain.pedido.PedidoRepository;
+import br.com.bluefood.domain.pedido.Pedido.Status;
 import br.com.bluefood.domain.restaurante.CategoriaRestaurante;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.ItemCardapio;
@@ -34,11 +38,24 @@ public class InsertDataForTesting {
 	@Autowired
 	private ItemCardapioRepository itemCardapioRepository;
 	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		clientes();
+		Cliente[] clientes = clientes();
 		Restaurante[] restaurantes = restaurantes();
 		itensCardapio(restaurantes);
+		
+		Pedido p1 = new Pedido();
+		p1.setCliente(clientes[0]);
+		p1.setData(LocalDateTime.now());
+		p1.setRestaurante(restaurantes[0]);
+		p1.setStatus(Status.Producao);
+		p1.setSubtotal(BigDecimal.valueOf(10));
+		p1.setTaxaEntrega(BigDecimal.valueOf(2));
+		p1.setTotal(BigDecimal.valueOf(10).add(p1.getTaxaEntrega()));
+		pedidoRepository.save(p1);
 	}
 	
 	private Restaurante[] restaurantes() {
