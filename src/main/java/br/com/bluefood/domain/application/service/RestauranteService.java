@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
+import br.com.bluefood.domain.restaurante.ItemCardapio;
+import br.com.bluefood.domain.restaurante.ItemCardapioRepository;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.domain.restaurante.SearchFilter;
@@ -28,6 +30,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private ItemCardapioRepository itemCardapioRepository;
 	
 	@Transactional
 	public void saveRestaurante(Restaurante restaurante) throws ValidationException {
@@ -117,5 +122,17 @@ public class RestauranteService {
 			
 			return searchFilter.isAsc() ? result : -result;
 		});		
+	}
+	
+	public void removerItemCardapio(Integer itemId) {
+		itemCardapioRepository.deleteById(itemId);
+	}
+	
+	@Transactional
+	public ItemCardapio cadastrarItemCardapio(ItemCardapio itemCardapio) {
+		itemCardapio = itemCardapioRepository.save(itemCardapio);
+		itemCardapio.setImagemFileName();
+		imageService.uploadImageComida(itemCardapio.getImagemFile(), itemCardapio.getImagem());
+		return itemCardapio;
 	}
 }

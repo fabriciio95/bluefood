@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.bluefood.domain.application.service.RestauranteService;
 import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
+import br.com.bluefood.domain.restaurante.ItemCardapio;
+import br.com.bluefood.domain.restaurante.ItemCardapioRepository;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.bluefood.util.SecurityUtils;
@@ -30,6 +33,9 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteService restauranteService;
+	
+	@Autowired
+	private ItemCardapioRepository itemCardapioRepository;
 
 	@GetMapping(path = "/home")
 	public String home() {
@@ -62,5 +68,57 @@ public class RestauranteController {
 		SecurityUtils.getLoggedUser().atualizarLoggedUser(restaurante);
 		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
 		return "restaurante-cadastro";
+	}
+	
+	@GetMapping("/comidas")
+	public String viewComidas(Model model) {
+		addDependenciesForViewRestauranteComidas(model, true);
+		return "restaurante-comidas";
+	}
+	
+	@GetMapping("/comidas/remover")
+	public String remover(Model model, @RequestParam("itemId") Integer itemId) {
+		restauranteService.removerItemCardapio(itemId);
+		model.addAttribute("msg", "Item removido com sucesso!");
+		addDependenciesForViewRestauranteComidas(model, true);
+		return "restaurante-comidas";
+	}
+	
+	@PostMapping("/comidas/cadastrar")
+	public String cadastrarItemCardapio(@ModelAttribute("itemCardapio") @Valid ItemCardapio itemCardapio,
+			Errors errors,
+			Model model) {
+		
+		if(errors.hasErrors()) {
+			addDependenciesForViewRestauranteComidas(model, false);
+			return "restaurante-comidas";
+		}
+		restauranteService.cadastrarItemCardapio(itemCardapio);
+		model.addAttribute("msg", "O item " + itemCardapio.getNome() + " foi cadastrado com sucesso!");
+		addDependenciesForViewRestauranteComidas(model, true);
+		return "restaurante-comidas";
+	}
+	
+	@GetMapping("/comidas/destaque")
+	public String destaque(@RequestParam(name = "itemId") Integer itemId, @RequestParam(name = "destaque") boolean destaque, Model model) {
+		ItemCardapio itemCardapio = itemCardapioRepository.findById(itemId).orElseThrow();
+		itemCardapio.setDestaque(destaque);
+		itemCardapioRepository.save(itemCardapio);
+		if(destaque) {
+			model.addAttribute("msg", "Item colocado em destaque");
+		} else {
+			model.addAttribute("msg", "O item foi retirado de destaque");
+		}
+		addDependenciesForViewRestauranteComidas(model, true);
+		return "restaurante-comidas";
+	}
+	
+	private void addDependenciesForViewRestauranteComidas(Model model,  boolean withNewItemCardapio) {
+		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
+		if(withNewItemCardapio) {
+			model.addAttribute("itemCardapio", new ItemCardapio());
+		}
+		model.addAttribute("itensCardapio", itemCardapioRepository.findByRestaurante_idOrderByNome(restauranteId));
+		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
 	}
 }

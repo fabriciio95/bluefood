@@ -6,7 +6,7 @@
 		<div layout:fragment="content">
 			
 			<div>
-				<img th:src="@{/images/logotipo/} + ${restaurante.logotipo}" id="imgPrincipalRestaurante" onclick="location.href = 'clienteRestaurante.html'"/>
+				<img th:src="@{/images/logotipo/} + ${restaurante.logotipo}" id="imgPrincipalRestaurante" />
 				<br/>
 				<span id="restauranteOpcaoTitulo" th:text="${restaurante.nome}"></span>
 				<br/>

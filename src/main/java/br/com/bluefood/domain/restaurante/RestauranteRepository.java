@@ -11,7 +11,5 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Intege
 	List<Restaurante> findByNomeIgnoreCaseContaining(String nome);
 	
 	List<Restaurante> findByCategorias_Id(Integer categoriaId);
-	
 
-	
 }
