@@ -29,7 +29,8 @@
 			</div><br/><br/>
 			
 			<div th:each="item : ${pedido.itens}">
-				<span id="restauranteOpcaoTitulo" th:text="'Item: ' + ${item.itemCardapio.nome}"></span><br/>
+				<br/><span id="restauranteOpcaoTitulo" th:text="Item"></span><br/>
+				<span th:text="${item.itemCardapio.nome}"></span><br/>
 				<span id="restauranteOpcaoTaxa" th:text="'Quantidade: ' + ${item.quantidade}"></span><br/>
 				<span id="restauranteOpcaoTaxa" th:text="${item.observacoes}"></span><br/>
 				<span id="restauranteOpcaoTaxa" th:text="${#numbers.formatCurrency(item.preco)}"></span>

@@ -20,6 +20,8 @@ import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.pedido.Pedido;
 import br.com.bluefood.domain.pedido.Pedido.Status;
 import br.com.bluefood.domain.pedido.PedidoRepository;
+import br.com.bluefood.domain.pedido.RelatorioItemFaturamento;
+import br.com.bluefood.domain.pedido.RelatorioItemFilter;
 import br.com.bluefood.domain.pedido.RelatorioPedidoFilter;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.ItemCardapio;
@@ -154,6 +156,17 @@ public class RestauranteController {
 		model.addAttribute("filter", filter);
 		model.addAttribute("pedidos", pedidos);
 		return "restaurante-relatorio-pedidos";
+	}
+	
+	@GetMapping("/relatorio/itens")
+	public String viewRelatorioItens(@ModelAttribute("relatorioItemFilter") RelatorioItemFilter filter, Model model) {
+		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
+		List<ItemCardapio> itensCardapio = itemCardapioRepository.findByRestaurante_idOrderByNome(restauranteId);
+		List<RelatorioItemFaturamento> itensCalculados = relatorioService.calcularFaturamentoItens(restauranteId, filter);
+		model.addAttribute("relatorioItemFilter", filter);
+		model.addAttribute("itensCardapio", itensCardapio);
+		model.addAttribute("itensCalculados", itensCalculados);
+		return "restaurante-relatorio-itens";
 	}
 	
 	private void addDependenciesForViewRestauranteComidas(Model model,  boolean withNewItemCardapio) {
