@@ -43,12 +43,13 @@ public class RestauranteController {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
 
 	@GetMapping(path = "/home")
 	public String home(Model model) {
 		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
-		Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow();
-		List<Pedido> pedidos = pedidoRepository.findByRestaurante_idOrderByDataDesc(restaurante.getId());
+		//TODO retirar pedidos com status concluido
+		List<Pedido> pedidos = pedidoRepository.findByRestaurante_idOrderByDataDesc(restauranteId);
 		model.addAttribute("pedidos", pedidos);
 		return "restaurante-home";
 	}
@@ -122,6 +123,22 @@ public class RestauranteController {
 		}
 		addDependenciesForViewRestauranteComidas(model, true);
 		return "restaurante-comidas";
+	}
+	
+	@GetMapping("/pedido")
+	public String viewPedido(@RequestParam("pedidoId") Integer pedidoId ,Model model) {
+		model.addAttribute("pedido", pedidoRepository.findById(pedidoId).orElseThrow());
+		return "restaurante-pedido";
+	}
+	
+	@PostMapping("/pedido/proximoStatus")
+	public String proximoStatus(@RequestParam("pedidoId") Integer pedidoId, Model model) {
+		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
+		pedido.definirProximoStatus();
+		pedidoRepository.save(pedido);
+		model.addAttribute("pedido", pedido);
+		model.addAttribute("msg", "Status alterado com sucesso");
+		return "restaurante-pedido";
 	}
 	
 	private void addDependenciesForViewRestauranteComidas(Model model,  boolean withNewItemCardapio) {
