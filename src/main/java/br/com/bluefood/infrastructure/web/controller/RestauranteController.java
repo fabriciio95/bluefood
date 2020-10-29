@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.bluefood.domain.application.service.RelatorioService;
 import br.com.bluefood.domain.application.service.RestauranteService;
 import br.com.bluefood.domain.application.service.ValidationException;
 import br.com.bluefood.domain.pedido.Pedido;
+import br.com.bluefood.domain.pedido.Pedido.Status;
 import br.com.bluefood.domain.pedido.PedidoRepository;
+import br.com.bluefood.domain.pedido.RelatorioPedidoFilter;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.ItemCardapio;
 import br.com.bluefood.domain.restaurante.ItemCardapioRepository;
@@ -31,6 +34,9 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteRepository restauranteRepository;
+	
+	@Autowired
+	private RelatorioService relatorioService;
 	
 	@Autowired
 	private CategoriaRestauranteRepository categoriaRestauranteRepository;
@@ -48,8 +54,7 @@ public class RestauranteController {
 	@GetMapping(path = "/home")
 	public String home(Model model) {
 		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
-		//TODO retirar pedidos com status concluido
-		List<Pedido> pedidos = pedidoRepository.findByRestaurante_idOrderByDataDesc(restauranteId);
+		List<Pedido> pedidos = pedidoRepository.findByRestaurante_idAndStatusNotOrderByDataDesc(restauranteId, Status.Concluido);
 		model.addAttribute("pedidos", pedidos);
 		return "restaurante-home";
 	}
@@ -139,6 +144,16 @@ public class RestauranteController {
 		model.addAttribute("pedido", pedido);
 		model.addAttribute("msg", "Status alterado com sucesso");
 		return "restaurante-pedido";
+	}
+	
+	@GetMapping("/relatorio/pedidos")
+	public String viewRelatorioPedidos(@ModelAttribute("relatorioPedidoFilter") RelatorioPedidoFilter filter,
+			Model model) {
+		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
+		List<Pedido> pedidos = relatorioService.listPedidos(restauranteId, filter);
+		model.addAttribute("filter", filter);
+		model.addAttribute("pedidos", pedidos);
+		return "restaurante-relatorio-pedidos";
 	}
 	
 	private void addDependenciesForViewRestauranteComidas(Model model,  boolean withNewItemCardapio) {

@@ -7,10 +7,10 @@
 				<h1>PEDIDO</h1>
 				
 				<div id="mensagemDeSucesso" th:if="${msg != null}">
-					<span th:text="${msg}"></span> <br/> <br/>
+					<span th:text="${msg}"></span> 
 				</div>
 				
-				<br/> <br/> 
+				<br/> <br/>
 				<form method="post" th:action="@{/restaurante/pedido/proximoStatus}">
 					<input type="hidden" name="pedidoId" th:value="${pedido.id}" />
 					<input type="submit" th:value="'Status: '  + ${pedido.status.descricao}" th:disabled="${pedido.status.ultimo}" /><br/>
