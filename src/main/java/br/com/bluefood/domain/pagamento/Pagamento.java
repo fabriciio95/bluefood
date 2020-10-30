@@ -52,7 +52,7 @@ public class Pagamento implements Serializable{
 
 	public void definirNumeroEBandeira(String numCartao) {
 		numCartaoFinal = numCartao.substring(12);
-		bandeiraCartao = getBandeira(numCartao).orElseThrow(() -> new CartaoInvalidoException("Cart„o recusado"));
+		bandeiraCartao = getBandeira(numCartao).orElseThrow(() -> new CartaoInvalidoException("Cart√£o recusado"));
 	}
 	
 	private Optional<BandeiraCartao> getBandeira(String numCartao) {

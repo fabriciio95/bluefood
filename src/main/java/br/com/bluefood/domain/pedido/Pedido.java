@@ -37,9 +37,9 @@ public class Pedido implements Serializable{
 	
 	@Getter
 	public enum Status {
-		Producao(1, "Em produção", false),
+		Producao(1, "Em produÃ§Ã£o", false),
 		Entrega(2, "Saiu para entrega", false),
-		Concluido(3, "Concluído", true);
+		Concluido(3, "ConcluÃ­do", true);
 		
 		private Status(int ordem, String descricao, boolean ultimo) {
 			this.ordem = ordem;

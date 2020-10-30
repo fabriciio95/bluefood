@@ -39,25 +39,25 @@ import lombok.ToString;
 @SuppressWarnings("serial")
 public class Restaurante extends Usuario {
 	
-	@NotBlank(message = "O CNPJ n„o pode ser vazio")
-	@Pattern(regexp = "[0-9]{14}", message = "O CNPJ possui formato inv·lido")
+	@NotBlank(message = "O CNPJ n√£o pode ser vazio")
+	@Pattern(regexp = "[0-9]{14}", message = "O CNPJ possui formato inv√°lido")
 	@Column(nullable = false, unique = true, length = 14)
 	private String cnpj;
 	
-	@Size(max = 80, message = "Tamanho inv·lido do logotipo")
+	@Size(max = 80, message = "Tamanho inv√°lido do logotipo")
 	@Column(nullable = true)
 	private String logotipo;
 	
-	@UploadConstraint(acceptedTypes = { FileType.PNG, FileType.JPG }, message = "O arquivo n„o È um arquivo de imagem v·lido")
+	@UploadConstraint(acceptedTypes = { FileType.PNG, FileType.JPG }, message = "O arquivo n√£o √© um arquivo de imagem v√°lido")
 	private transient MultipartFile logotipoFile;
 	
-	@NotNull(message = "A taxa de entrega n„o pode ser vazia")
+	@NotNull(message = "A taxa de entrega n√£o pode ser vazia")
 	@Min(0)
 	@Max(99)
 	@Column(nullable = false)
 	private BigDecimal taxaEntrega;
 	
-	@NotNull(message = "O tempo de entrega base n„o pode ser vazio")
+	@NotNull(message = "O tempo de entrega base n√£o pode ser vazio")
 	@Min(0)
 	@Max(120)
 	@Column(nullable = false)
@@ -79,7 +79,7 @@ public class Restaurante extends Usuario {
 	public void setLogotipoFileName() {
 		
 		if(getId() == null) {
-			throw new IllegalStateException("… preciso primeiro gravar o registro");
+			throw new IllegalStateException("√â preciso primeiro gravar o registro");
 		}
 
 

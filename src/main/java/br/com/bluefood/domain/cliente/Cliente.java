@@ -17,13 +17,13 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 public class Cliente extends Usuario {
 	
-	@NotBlank(message = " O CPF n„o pode ser vazio")
-	@Pattern(regexp = "[0-9]{11}", message = "O CPF possui formato inv·lido!")
+	@NotBlank(message = " O CPF n√£o pode ser vazio")
+	@Pattern(regexp = "[0-9]{11}", message = "O CPF possui formato inv√°lido!")
 	@Column(length = 11, unique = true, nullable = false)
 	private String cpf;
 	
-	@NotBlank(message = " O CEP n„o pode ser vazio")
-	@Pattern(regexp = "[0-9]{8}", message = "O CEP possui formato inv·lido!")
+	@NotBlank(message = " O CEP n√£o pode ser vazio")
+	@Pattern(regexp = "[0-9]{8}", message = "O CEP possui formato inv√°lido!")
 	@Column(length = 8, nullable = false)
 	private String cep;
 	

@@ -48,7 +48,7 @@ public class ImageService {
 			} else if("logotipo".equals(type)) {
 				dir = logotiposDir;
 			} else {
-				throw new IllegalStateException(type + " n„o È um tipo de imagem v·lida!");
+				throw new IllegalStateException(type + " n√£o √© um tipo de imagem v√°lida!");
 			}
 			return IOUtils.getBytes(Paths.get(dir, imgName));
 		} catch(Exception e) {

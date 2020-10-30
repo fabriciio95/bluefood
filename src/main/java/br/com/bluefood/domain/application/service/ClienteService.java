@@ -21,7 +21,7 @@ public class ClienteService {
 	@Transactional
 	public void saveCliente(Cliente cliente) throws ValidationException {
 		if(!validateEmail(cliente.getEmail(), cliente.getId())) {
-			throw new ValidationException("O e-mail est· duplicado");
+			throw new ValidationException("O e-mail est√° duplicado");
 		}
 		
 		if(cliente.getId() != null) {

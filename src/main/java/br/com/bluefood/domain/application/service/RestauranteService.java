@@ -38,7 +38,7 @@ public class RestauranteService {
 	public void saveRestaurante(Restaurante restaurante) throws ValidationException {
 		
 		if(!validateEmail(restaurante.getEmail(), restaurante.getId())) {
-			throw new ValidationException("O e-mail est· duplicado");
+			throw new ValidationException("O e-mail est√° duplicado");
 		}
 		
 		if(restaurante.getId() != null) {
@@ -86,7 +86,7 @@ public class RestauranteService {
 		} else if(searchFilter.getSearchType().equals(SearchType.Categoria)){
 			restaurantes.addAll(restauranteRepository.findByCategorias_Id(searchFilter.getCategoriaId()));
 		} else {
-			throw new IllegalStateException("O tipo de busca "  + searchFilter.getSearchType() + " n„o È suportado!");
+			throw new IllegalStateException("O tipo de busca "  + searchFilter.getSearchType() + " n√£o √© suportado!");
 		}
 		
 		applyFilters(searchFilter, restaurantes);
@@ -117,7 +117,7 @@ public class RestauranteService {
 			} else if(searchFilter.getOrder() == Order.Tempo) {
 				result = r1.calcularTempoEntrega(cep).compareTo(r2.calcularTempoEntrega(cep));
 			} else {
-				throw new IllegalStateException("O valor de ordenaÁ„o " + searchFilter.getOrder() + " n„o È v·lido");
+				throw new IllegalStateException("O valor de ordena√ß√£o " + searchFilter.getOrder() + " n√£o √© v√°lido");
 			}
 			
 			return searchFilter.isAsc() ? result : -result;
