@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.stereotype.Component;
 
 import br.com.bluefood.domain.cliente.Cliente;
@@ -43,19 +45,22 @@ public class InsertDataForTesting {
 	
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		Cliente[] clientes = clientes();
-		Restaurante[] restaurantes = restaurantes();
-		itensCardapio(restaurantes);
-		
-		Pedido p1 = new Pedido();
-		p1.setCliente(clientes[0]);
-		p1.setData(LocalDateTime.now());
-		p1.setRestaurante(restaurantes[0]);
-		p1.setStatus(Status.Producao);
-		p1.setSubtotal(BigDecimal.valueOf(10));
-		p1.setTaxaEntrega(BigDecimal.valueOf(2));
-		p1.setTotal(BigDecimal.valueOf(10).add(p1.getTaxaEntrega()));
-		pedidoRepository.save(p1);
+		Environment environment = event.getApplicationContext().getEnvironment();
+		if(environment.acceptsProfiles(Profiles.of("dev")) || environment.acceptsProfiles(Profiles.of("prod"))) {
+			Cliente[] clientes = clientes();
+			Restaurante[] restaurantes = restaurantes();
+			itensCardapio(restaurantes);
+			
+			Pedido p1 = new Pedido();
+			p1.setCliente(clientes[0]);
+			p1.setData(LocalDateTime.now());
+			p1.setRestaurante(restaurantes[0]);
+			p1.setStatus(Status.Producao);
+			p1.setSubtotal(BigDecimal.valueOf(10));
+			p1.setTaxaEntrega(BigDecimal.valueOf(2));
+			p1.setTotal(BigDecimal.valueOf(10).add(p1.getTaxaEntrega()));
+			pedidoRepository.save(p1);
+		}
 	}
 	
 	private Restaurante[] restaurantes() {
