@@ -1,6 +1,7 @@
 package br.com.bluefood.infrastructure.web.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -64,7 +65,7 @@ public class RestauranteController {
 	@GetMapping(path = "/edit")
 	public String edit(Model model) {
 		Integer restauranteId = SecurityUtils.getLoggedRestaurante().getId();
-		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
+		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow(NoSuchElementException::new));
 		ControllerHelper.setEditeMode(model, true);
 		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
 		return "restaurante-cadastro" ;
@@ -120,7 +121,7 @@ public class RestauranteController {
 	
 	@GetMapping("/comidas/destaque")
 	public String destaque(@RequestParam(name = "itemId") Integer itemId, @RequestParam(name = "destaque") boolean destaque, Model model) {
-		ItemCardapio itemCardapio = itemCardapioRepository.findById(itemId).orElseThrow();
+		ItemCardapio itemCardapio = itemCardapioRepository.findById(itemId).orElseThrow(NoSuchElementException::new);
 		itemCardapio.setDestaque(destaque);
 		itemCardapioRepository.save(itemCardapio);
 		if(destaque) {
@@ -134,13 +135,13 @@ public class RestauranteController {
 	
 	@GetMapping("/pedido")
 	public String viewPedido(@RequestParam("pedidoId") Integer pedidoId ,Model model) {
-		model.addAttribute("pedido", pedidoRepository.findById(pedidoId).orElseThrow());
+		model.addAttribute("pedido", pedidoRepository.findById(pedidoId).orElseThrow(NoSuchElementException::new));
 		return "restaurante-pedido";
 	}
 	
 	@PostMapping("/pedido/proximoStatus")
 	public String proximoStatus(@RequestParam("pedidoId") Integer pedidoId, Model model) {
-		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
+		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(NoSuchElementException::new);
 		pedido.definirProximoStatus();
 		pedidoRepository.save(pedido);
 		model.addAttribute("pedido", pedido);
@@ -175,6 +176,6 @@ public class RestauranteController {
 			model.addAttribute("itemCardapio", new ItemCardapio());
 		}
 		model.addAttribute("itensCardapio", itemCardapioRepository.findByRestaurante_idOrderByNome(restauranteId));
-		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
+		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow(NoSuchElementException::new));
 	}
 }

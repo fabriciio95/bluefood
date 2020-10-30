@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Component;
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.cliente.ClienteRepository;
 import br.com.bluefood.domain.pedido.Pedido;
-import br.com.bluefood.domain.pedido.PedidoRepository;
 import br.com.bluefood.domain.pedido.Pedido.Status;
+import br.com.bluefood.domain.pedido.PedidoRepository;
 import br.com.bluefood.domain.restaurante.CategoriaRestaurante;
 import br.com.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.bluefood.domain.restaurante.ItemCardapio;
@@ -61,10 +62,10 @@ public class InsertDataForTesting {
 	private Restaurante[] restaurantes() {
 		List<Restaurante> restaurantes = new ArrayList<>();
 		
-		CategoriaRestaurante categoriaPizza = categoriaRestauranteRepository.findById(1).orElseThrow();
-		CategoriaRestaurante categoriaSanduiche = categoriaRestauranteRepository.findById(2).orElseThrow();
-		CategoriaRestaurante categoriaSobremesa = categoriaRestauranteRepository.findById(5).orElseThrow();
-		CategoriaRestaurante categoriaJapones = categoriaRestauranteRepository.findById(6).orElseThrow();
+		CategoriaRestaurante categoriaPizza = categoriaRestauranteRepository.findById(1).orElseThrow(NoSuchElementException::new);
+		CategoriaRestaurante categoriaSanduiche = categoriaRestauranteRepository.findById(2).orElseThrow(NoSuchElementException::new);
+		CategoriaRestaurante categoriaSobremesa = categoriaRestauranteRepository.findById(5).orElseThrow(NoSuchElementException::new);
+		CategoriaRestaurante categoriaJapones = categoriaRestauranteRepository.findById(6).orElseThrow(NoSuchElementException::new);
 		
 		Restaurante r = new Restaurante();
 		r.setNome("Bubger King");

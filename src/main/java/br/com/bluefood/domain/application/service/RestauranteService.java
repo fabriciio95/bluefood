@@ -3,6 +3,7 @@ package br.com.bluefood.domain.application.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class RestauranteService {
 		}
 		
 		if(restaurante.getId() != null) {
-			Restaurante restauranteDB = restauranteRepository.findById(restaurante.getId()).orElseThrow();
+			Restaurante restauranteDB = restauranteRepository.findById(restaurante.getId()).orElseThrow(NoSuchElementException::new);
 			restaurante.setSenha(restauranteDB.getSenha());
 			restaurante.setLogotipo(restauranteDB.getLogotipo());
 			restauranteRepository.save(restaurante);

@@ -1,7 +1,6 @@
 package br.com.bluefood.infrastructure.web.security;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.bluefood.domain.cliente.Cliente;
 import br.com.bluefood.domain.restaurante.Restaurante;
 import br.com.bluefood.domain.usuario.Usuario;
+import br.com.bluefood.util.CollectionUtils;
 
 @SuppressWarnings("serial")
 public class LoggedUser implements UserDetails {
@@ -28,7 +28,7 @@ public class LoggedUser implements UserDetails {
 			throw new IllegalStateException("O tipo de usuário não é válido!");
 		}
 		
-		this.roles = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+		this.roles = CollectionUtils.listOf(new SimpleGrantedAuthority("ROLE_" + role));
 	}
 
 	@Override

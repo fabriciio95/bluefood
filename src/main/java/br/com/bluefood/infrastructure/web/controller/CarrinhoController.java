@@ -1,5 +1,7 @@
 package br.com.bluefood.infrastructure.web.controller;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +40,7 @@ public class CarrinhoController {
 	@GetMapping("/adicionar")
 	public String adicionarItem(@RequestParam("itemId") Integer itemId, @RequestParam("quantidade") Integer quantidade,
 			@RequestParam("observacoes") String observacoes, @ModelAttribute("carrinho") Carrinho carrinho, Model model) {
-		ItemCardapio itemCardapio = itemCardapioRepository.findById(itemId).orElseThrow();
+		ItemCardapio itemCardapio = itemCardapioRepository.findById(itemId).orElseThrow(NoSuchElementException::new);
 		try {
 			carrinho.addItem(itemCardapio, quantidade, observacoes);
 		} catch(RestauranteDiferenteException e) {
@@ -50,7 +52,7 @@ public class CarrinhoController {
 	@GetMapping("/remover")
 	public String removerItem(@RequestParam("itemId") Integer itemId, @ModelAttribute("carrinho") Carrinho carrinho, 
 			SessionStatus sessionStatus, Model model) {
-		carrinho.removeItem(itemCardapioRepository.findById(itemId).orElseThrow());
+		carrinho.removeItem(itemCardapioRepository.findById(itemId).orElseThrow(NoSuchElementException::new));
 		if(carrinho.vazio()) {
 			sessionStatus.setComplete();
 		}
@@ -60,7 +62,7 @@ public class CarrinhoController {
 	@GetMapping("/refazerCarrinho")
 	public String refazerCarrinho(@RequestParam("pedidoId") Integer pedidoId, @ModelAttribute("carrinho") Carrinho carrinho,
 			Model model) {
-		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
+		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(NoSuchElementException::new);
 		carrinho.limpar();
 		pedido.getItens().forEach((item) -> carrinho.addItem(item));
 		return "cliente-carrinho";
