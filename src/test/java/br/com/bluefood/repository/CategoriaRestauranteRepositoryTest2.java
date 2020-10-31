@@ -18,7 +18,7 @@ public class CategoriaRestauranteRepositoryTest2 {
 	private TestEntityManager em;
 
 	@Test
-	public void t() {
+	public void testInsertAndDelete() {
 		assertThat(em).isNotNull();
 		
 		CategoriaRestaurante cr = new CategoriaRestaurante();
