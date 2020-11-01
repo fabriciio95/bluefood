@@ -1,6 +1,7 @@
 package br.com.bluefood.infrastructure.web.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -66,7 +67,7 @@ public class ClienteController {
 	@GetMapping(path = "/edit")
 	public String edit(Model model) {
 		Integer clienteId = SecurityUtils.getLoggedCliente().getId();
-		model.addAttribute("cliente", clienteRepository.findById(clienteId).orElseThrow());
+		model.addAttribute("cliente", clienteRepository.findById(clienteId).orElseThrow(NoSuchElementException::new));
 		ControllerHelper.setEditeMode(model, true);
 		return "cliente-cadastro" ;
 	}
@@ -98,7 +99,7 @@ public class ClienteController {
 	@GetMapping("/restaurante")
 	public String viewRestaurante(@RequestParam(name = "restauranteId") Integer restauranteId,
 			@RequestParam(name = "categoria", required = false) String categoria, Model model) {
-		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow());
+		model.addAttribute("restaurante", restauranteRepository.findById(restauranteId).orElseThrow(NoSuchElementException::new));
 		model.addAttribute("categorias", itemCardapioRepository.findCategorias(restauranteId));
 		List<ItemCardapio> itensCardapioDestaque;
 		List<ItemCardapio> itensCardapioNaoDestaque;

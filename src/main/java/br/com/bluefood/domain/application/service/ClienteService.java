@@ -1,5 +1,7 @@
 package br.com.bluefood.domain.application.service;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class ClienteService {
 		}
 		
 		if(cliente.getId() != null) {
-			Cliente clienteDB = clienteRepository.findById(cliente.getId()).orElseThrow();
+			Cliente clienteDB = clienteRepository.findById(cliente.getId()).orElseThrow(NoSuchElementException::new);
 			cliente.setSenha(clienteDB.getSenha());
 		} else {
 			cliente.encryptPassword();
