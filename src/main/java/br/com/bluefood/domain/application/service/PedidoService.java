@@ -78,6 +78,7 @@ public class PedidoService {
 		try {
 			response = restTemplate.postForObject(bfPayUrl, requestEntity, Map.class);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new PagamentoException("Erro no servidor de pagamento");
 		}
 		StatusPagamento statusPagamento = StatusPagamento.valueOf(response.get("status"));
